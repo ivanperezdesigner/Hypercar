@@ -42,7 +42,6 @@ class Service(View):
 
 
 class Processing(View):
-    
     def get(self, request, *args, **kwargs):
         context = {'service_line': service_line}
         return render(request, 'tickets/processing.html', context)
