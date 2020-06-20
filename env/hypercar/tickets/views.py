@@ -47,38 +47,22 @@ class Processing(View):
         return render(request, 'tickets/processing.html', context)
 
     def post(self, request, *args, **kwargs):
+        if len(service_line['change_oil']) > 0:
+            service_line['change_oil'].pop(0)
+        elif len(service_line['inflate_tires']) > 0:
+            service_line['inflate_tires'].pop(0)
+        elif len(service_line['diagnostic']) > 0:
+            service_line['diagnostic'].pop(0)
         return redirect('/next')
-
 
 class Next(View):
     def get(self, request, *args, **kwargs):
-        next_client = 0 # número de turno
-        if len(service_line ['change_oil']) == 0:
-            next_client = 0
-        elif len(service_line ['change_oil']) == 1:
-            next_client = 0
-            service_line ['change_oil'].pop(0) 
-        else:
-            next_client = service_line ['change_oil'][1]
-            service_line ['change_oil'].pop(0)
-
-        if len(service_line ['inflate_tires']) == 0:
-            next_client = 0
-        elif len(service_line ['inflate_tires']) == 1:
-            next_client = 0
-            service_line ['inflate_tires'].pop(0)
-        else:
-            next_client = service_line ['inflate_tires'][1]
-            service_line ['inflate_tires'].pop(0)
-
-        if len(service_line ['diagnostic']) == 0:
-            next_client = 0
-        elif len(service_line ['diagnostic']) == 1:
-            next_client = 0
-            service_line ['diagnostic'].pop(0)
-        else:
-            next_client = service_line ['diagnostic'][1]
-            service_line ['diagnostic'].pop(0)
-
-        context = {'next': next_client}
+        next = 0
+        if len(service_line['change_oil']) > 1:
+            next = service_line.get('change_oil')[0]
+        elif len(service_line['inflate_tires']) > 1:
+            next = service_line.get('inflate_tires')[0]
+        elif len(service_line['diagnostic']) > 1:
+            next = service_line.get('diagnostic')[0]
+        context = {'next': next}
         return render(request, 'tickets/next.html', context)
