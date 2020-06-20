@@ -1,0 +1,8 @@
+<div>Change oil queue: {{ service_line.change_oil|length }}</div>
+<div>Inflate tires queue: {{ service_line.inflate_tires|length }}</div>
+<div>Get diagnostic queue: {{ service_line.diagnostic|length }}</div>
+
+<form method="POST">
+  {% csrf_token %}
+  <button type="submit">Process next</button>
+</form>

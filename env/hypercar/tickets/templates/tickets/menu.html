@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ticket Menu</title>
+</head>
+<body>
+<ul>
+{% for option in options %}
+<p>
+    <li><a href="/get_ticket/{{ option.lower.split|join:"_" }}">{{ option }}</a></li>
+</p>
+{% endfor %}
+</ul>
+
+</body>
+</html>
