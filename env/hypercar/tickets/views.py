@@ -57,12 +57,12 @@ class Processing(View):
 
 class Next(View):
     def get(self, request, *args, **kwargs):
-        next = None
-        if len(service_line['change_oil']) > 1:
-            next = service_line.get('change_oil')[0]
-        elif len(service_line['inflate_tires']) > 1:
-            next = service_line.get('inflate_tires')[0]
-        elif len(service_line['diagnostic']) > 1:
-            next = service_line.get('diagnostic')[0]
-        context = {'next': next}
+        x = 0
+        if len(service_line['change_oil']) > 0:
+            x = service_line['change_oil'][0]
+        elif len(service_line['inflate_tires']) > 0:
+            x = service_line['inflate_tires'][0]
+        elif len(service_line['diagnostic']) > 0:
+            x = service_line['diagnostic'][0]
+        context = {'next': x}
         return render(request, 'tickets/next.html', context)
