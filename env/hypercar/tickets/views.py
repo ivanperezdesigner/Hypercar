@@ -1,6 +1,8 @@
 from django.views import View
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
+from django.views.generic import TemplateView
+
 
 
 class WelcomeView(View):
@@ -45,7 +47,7 @@ class Processing(View):
     def get(self, request, *args, **kwargs):
         context = {'service_line': service_line}
         return render(request, 'tickets/processing.html', context)
-
+    
     def post(self, request, *args, **kwargs):
         if len(service_line['change_oil']) > 0:
             service_line['change_oil'].pop(0)
@@ -57,12 +59,12 @@ class Processing(View):
 
 class Next(View):
     def get(self, request, *args, **kwargs):
-        x = 0
+        next = 0 
         if len(service_line['change_oil']) > 0:
-            x = service_line['change_oil'][0]
+            next = service_line['change_oil'][0]
         elif len(service_line['inflate_tires']) > 0:
-            x = service_line['inflate_tires'][0]
+            next = service_line['inflate_tires'][0]
         elif len(service_line['diagnostic']) > 0:
-            x = service_line['diagnostic'][0]
-        context = {'next': x}
+            next = service_line['diagnostic'][0]
+        context = {'next': next}
         return render(request, 'tickets/next.html', context)
