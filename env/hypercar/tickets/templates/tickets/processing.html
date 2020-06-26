@@ -2,6 +2,6 @@
 <div>Inflate tires queue: {{ service_line.inflate_tires|length }}</div>
 <div>Get diagnostic queue: {{ service_line.diagnostic|length }}</div>
 
-<form method="POST" >{% csrf_token %}
+<form method="POST" action="/next">{% csrf_token %}
   <button type="submit">Process next</button>
 </form>

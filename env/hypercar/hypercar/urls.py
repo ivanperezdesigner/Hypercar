@@ -18,9 +18,9 @@ from tickets.views import WelcomeView, MenuView, Service, Processing, Next
 
 
 urlpatterns = [
-    path('welcome/', WelcomeView.as_view()),
-    path('menu/', MenuView.as_view()),
+    path('welcome', WelcomeView.as_view()),
+    path('menu', MenuView.as_view()),
     path('get_ticket/<str:service>', Service.as_view()),
-    path('processing/', Processing.as_view()),
-    path('next/', Next.as_view()),
+    path('processing', Processing.as_view()),
+    path('next', Next.as_view()),
 ]

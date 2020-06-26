@@ -49,22 +49,19 @@ class Processing(View):
         return render(request, 'tickets/processing.html', context)
     
     def post(self, request, *args, **kwargs):
-        if len(service_line['change_oil']) > 0:
-            service_line['change_oil'].pop(0)
-        elif len(service_line['inflate_tires']) > 0:
-            service_line['inflate_tires'].pop(0)
-        elif len(service_line['diagnostic']) > 0:
-            service_line['diagnostic'].pop(0)
-        return redirect('/next')
-
-class Next(View):
-    def get(self, request, *args, **kwargs):
         next = 0 
         if len(service_line['change_oil']) > 0:
             next = service_line['change_oil'][0]
+            service_line['change_oil'].pop(0)
         elif len(service_line['inflate_tires']) > 0:
             next = service_line['inflate_tires'][0]
+            service_line['inflate_tires'].pop(0)
         elif len(service_line['diagnostic']) > 0:
             next = service_line['diagnostic'][0]
+            service_line['diagnostic'].pop(0)
         context = {'next': next}
         return render(request, 'tickets/next.html', context)
+
+class Next(Processing):
+    def get(self, request, *args, **kwargs):
+        return render(request, 'tickets/next.html')
