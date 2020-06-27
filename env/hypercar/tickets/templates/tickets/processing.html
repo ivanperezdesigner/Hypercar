@@ -1,7 +1,16 @@
-<div>Change oil queue: {{ service_line.change_oil|length }}</div>
-<div>Inflate tires queue: {{ service_line.inflate_tires|length }}</div>
-<div>Get diagnostic queue: {{ service_line.diagnostic|length }}</div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hypercar Service Center: Show Queues</title>
+</head>
+<body>
+    <div>Change oil queue: {{ change_oil }}</div>
+    <div>Inflate tires queue: {{ inflate_tires }}</div>
+    <div>Get diagnostic queue: {{ diagnostic }}</div>
 
-<form method="POST" action="/next">{% csrf_token %}
-  <button type="submit">Process next</button>
-</form>
+    <form method="post">{% csrf_token %}
+        <button type="submit">Process next</button>
+    </form>
+</body>
+</html>

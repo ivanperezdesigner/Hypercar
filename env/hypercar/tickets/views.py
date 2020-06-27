@@ -1,8 +1,6 @@
 from django.views import View
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from django.views.generic import TemplateView
-
 
 
 class WelcomeView(View):
@@ -21,6 +19,7 @@ service_line = {
     'diagnostic': []
 }
 ticket_number = 0
+next_ticket = 0
 
 class Service(View):
     def get(self, request, service, *args, **kwargs):
@@ -45,23 +44,24 @@ class Service(View):
 
 class Processing(View):
     def get(self, request, *args, **kwargs):
-        context = {'service_line': service_line}
+        change_oil = len(service_line['change_oil'])
+        inflate_tires = len(service_line['inflate_tires'])
+        diagnostic = len(service_line['diagnostic'])
+        context = {"change_oil": change_oil, "inflate_tires": inflate_tires, "diagnostic": diagnostic}
         return render(request, 'tickets/processing.html', context)
     
     def post(self, request, *args, **kwargs):
-        next = 0 
+        global next_ticket
         if len(service_line['change_oil']) > 0:
-            next = service_line['change_oil'][0]
-            service_line['change_oil'].pop(0)
+            next_ticket = service_line['change_oil'].pop(0)
         elif len(service_line['inflate_tires']) > 0:
-            next = service_line['inflate_tires'][0]
-            service_line['inflate_tires'].pop(0)
+            next_ticket = service_line['inflate_tires'].pop(0)
         elif len(service_line['diagnostic']) > 0:
-            next = service_line['diagnostic'][0]
-            service_line['diagnostic'].pop(0)
-        context = {'next': next}
-        return render(request, 'tickets/next.html', context)
+            next_ticket = service_line['diagnostic'].pop(0)
+        else:
+            next_ticket = 0
+        return redirect('/next')
 
 class Next(Processing):
     def get(self, request, *args, **kwargs):
-        return render(request, 'tickets/next.html')
+        return render(request, 'tickets/next.html', context={"ticket_number": next_ticket})
