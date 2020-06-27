@@ -62,6 +62,6 @@ class Processing(View):
             next_ticket = 0
         return redirect('/next')
 
-class Next(Processing):
+class Next(View):
     def get(self, request, *args, **kwargs):
         return render(request, 'tickets/next.html', context={"ticket_number": next_ticket})
